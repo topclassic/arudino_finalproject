@@ -19,7 +19,7 @@ const uint64_t pipes[2] = { 0xe7e7e7e7e7LL, 0xc2c2c2c2c2LL};
 
 char id[] = "  11";
 String checkid = "";
-String checklimit = "";
+
 //network
 
 #define DS1307_ADDRESS 0x68 // define DS1307 Address
@@ -154,6 +154,7 @@ void printDate(){
   //network
   String string_id = "";
   String string_limit = "";
+  String string_alllimit = "";
   char text[32] = "";
   int stoplimt = 0;
   if (radio.available())
@@ -166,19 +167,22 @@ void printDate(){
           string_id += textread[n]; 
         }else if(n >=4 && n<=11){
           string_limit += textread[n];
+        }else if(n == 12){
+          string_alllimit += textread[n];
         }
       }
       Serial.println(string_id);
       Serial.println(string_limit);
+      Serial.println(string_alllimit);
       checkid = string_id;
-      checklimit = string_limit;
     }
   int check_limit = string_limit.toInt();
+  int check_alllimit = string_alllimit.toInt();
   int n = 2;
   if(checkid == "  11"){
-    if(n > check_limit && check_limit != 0){
+    if(unit >= check_limit || check_alllimit == 1 && check_limit != 0){
       digitalWrite(Relay4, LOW);
-      Serial.println("LOW");
+      Serial.println("Cut power");
       }else{
       digitalWrite(Relay4, HIGH);
      }
