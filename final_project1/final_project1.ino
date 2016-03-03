@@ -178,15 +178,25 @@ void printDate(){
     }
   int check_limit = string_limit.toInt();
   int check_alllimit = string_alllimit.toInt();
+ //  Serial.println("Check limit"+  check_limit);
   int n = 2;
   if(checkid == "  11"){
-    if(unit >= check_limit || check_alllimit == 1 && check_limit != 0){
-      digitalWrite(Relay4, LOW);
-      Serial.println("Cut power");
-      }else{
-      digitalWrite(Relay4, HIGH);
-     }
-     Serial.println("Yes");
+    if(check_alllimit == 1){
+       digitalWrite(Relay4, HIGH);
+            Serial.println("Cut power");
+        }else{
+            digitalWrite(Relay4, LOW);
+    }
+   
+    if(check_limit != 0){
+        if(unit >= check_limit){
+            digitalWrite(Relay4, HIGH);
+            Serial.println("Cut power");
+        }else{
+            digitalWrite(Relay4, LOW);
+         }
+       Serial.println("Yes");
+    }
   } 
   radio.stopListening();     
  // float watt = 13333.53;
